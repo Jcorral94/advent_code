@@ -11,7 +11,6 @@ function partOne() {
     .map(arr => arr[0] + arr[arr.length - 1])
     .reduce((acc, val) => acc + Number(val), 0);
 }
-
 // Part Two
 function partTwo() {
   const wordValues = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
@@ -47,8 +46,8 @@ function partTwo() {
       // console.log(val[0]);
       return { value: Number(val[0]), index: val.index };
     });
+    // merge
     map = [...map, ...numbers];
-
     // console.log('map', map);
     map = map.sort((a, b) => a.index - b.index);
     const fin = Number('' + map[0].value + map[map.length - 1].value)
@@ -59,4 +58,48 @@ function partTwo() {
     .reduce((acc, val) => acc + Number(val), 0);
 
 }
-console.log(partTwo());
+
+// --- Day 2: Cube Conundrum ---
+const day2 = {
+  partOne() {
+    const check = {
+      'red': 12,
+      'green': 13,
+      'blue': 14
+    };
+
+    let idTotals = 0;
+
+    return sample
+      .split("\n")
+      .reduce((acc, line) => {
+        acc = acc || 0;
+        const lineArray = line.split(": ");
+        const game = lineArray[0];
+        const options = lineArray[1];
+
+        let rounds = options.split("; ");
+
+        rounds = rounds.map((round) => round.split(', '));
+
+        const checked = rounds.map((round) => {
+          return round.map(cubes => {
+            const [number, color] = cubes.split(' ');
+
+            return +number <= check[color];
+          });
+        });
+
+        const final = checked.map(value => value.every(v => v === true)).every(val => val === true);
+        if (final === true) {
+          acc += Number(+game.split(' ')[1]);
+        }
+
+        return acc;
+
+      }, 0);
+  },
+  partTwo() {
+
+  }
+}
